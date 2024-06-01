@@ -16,14 +16,14 @@ FORMAT = pyaudio.paInt16
 CHANNELS = 2
 
 #Reactivity parameters
-rate_of_change_down = 1.0/15 #Rate of change for the sigmoid function to fall
-rate_of_change_up = 1.0/40 #Rate of change for the sigmoid function to climb
+rate_of_change_down = 1.0/20 #Rate of change for the sigmoid function to fall
+rate_of_change_up = 1.0/10 #Rate of change for the sigmoid function to climb
 
 #Audio filtering parameters
-frequency_low = 350 # Lower frequency range to pass
-frequency_high = 1000 # Higher frequency range to pass
+frequency_low = 150 # Lower frequency range to pass
+frequency_high = 800 # Higher frequency range to pass
 
-falloff = 8 # Order of the filter, each order adds 6dB per octave
+falloff = 7 # Order of the filter, each order adds 6dB per octave
 sigmoid_falloff = 1 # Sigmoid falloff factor, higher values make the sigmoid function more linear      !DOES NOT WORK FOR NOW, NO IDEA WHY!
 #   ^^ Fix me! ^^
 
@@ -127,6 +127,7 @@ def to_hex(value):
 # Main loop to read audio data from the stream
 _prev = 1.0
 initial_value = 0.0
+new_value = 0.0
 try:
     while True:
         data += stream.read(CHUNK)
@@ -142,7 +143,7 @@ try:
         average_data = calculate_average(processed_data) - 16384
         sigmoid_result = apply_sigmoid_255_indev(average_data)
 
-        if initial_value < abs(sigmoid_result):
+        if new_value < sigmoid_result:
             new_value = initial_value - (initial_value - sigmoid_result) *rate_of_change_up
         else:
             new_value = initial_value - (initial_value - sigmoid_result) * rate_of_change_down

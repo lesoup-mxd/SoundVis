@@ -1,0 +1,9 @@
+{
+    "powermode.shake.enabled": false,
+    "powermode.combo.threshold": 4,
+    "powermode.explosions.maxExplosions": 2,
+    "powermode.enabled": true,
+    "powermode.combo.location": "statusbar",
+    "fileheader.Author": "lesoup-mxd",
+    "fileheader.LastModifiedBy": "lesoup-mxd"
+}

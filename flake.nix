@@ -17,6 +17,7 @@
         python312Packages.matplotlib
         python312Packages.pulsectl
         python312Packages.numba
+        python312Packages.sounddevice
         stdenv.cc.cc.lib
         tk
         portaudio
@@ -24,6 +25,9 @@
         pulseaudio
       ];
       src = ./.;
+      shellHook = ''
+          source activate/bin/activate
+      '';
     };
  };
 }
